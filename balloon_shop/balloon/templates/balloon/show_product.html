@@ -1,0 +1,17 @@
+{% extends 'balloon/base.html' %}
+
+{% block content %}
+
+<h1>{{ good.name }}</h1>
+
+{% if good.photo %}
+    <p><img class="img-article-left" src="{{ good.photo.url }}" alt="Фото товара"></p>
+{% endif %}
+
+{{ good.description|linebreaks }}
+
+<h4>Цена: <font color="red">{{ good.price }} р.</font></h4>
+
+<p class="link-read-post"><a href="{% url 'home' %}">Назад</a></p>
+
+{% endblock%}

@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 
 menu = [
@@ -28,19 +28,15 @@ def index(request):
     return render(request, 'balloon/index.html', context)
 
 
-def detail(request, good_id):
-    return HttpResponse(f"Товар с id = {good_id}")
-
-
-def group(request, group_id):
-    goods = Balloon.objects.filter(group_id=group_id, is_onsite=True)
+def group(request, group_slug):
+    goods = Balloon.objects.filter(group__slug=group_slug, is_onsite=True)
     groups = Group.objects.all()
     context = {
         'title': 'Категория товаров',
         'menu': menu,
         'goods': goods,
         'groups': groups,
-        'group_selected': group_id,
+        'group_selected': group_slug,
     }
     return render(request, 'balloon/index.html', context)
 
@@ -57,6 +53,19 @@ def about(request):
         'groups': groups,
     }
     return render(request, 'balloon/about.html', context)
+
+
+def detail(request, good_slug):
+    good = get_object_or_404(Balloon, slug=good_slug)
+
+    context = {
+        'good': good,
+        'menu': menu,
+        'title': good.name,
+        'group_selected': good.group_id,
+    }
+
+    return render(request, 'balloon/show_product.html', context)
 
 
 def works(request):

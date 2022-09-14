@@ -3,8 +3,8 @@ from .views import *
 
 urlpatterns = [
     path('', index, name='home'),
-    path('good/<int:good_id>', detail, name='detail'),
-    path('group/<int:group_id>', group, name='group'),
+    path('good/<slug:good_slug>', detail, name='detail'),
+    path('group/<slug:group_slug>', group, name='group'),
     path('about/', about, name='about'),
     path('works/', works, name='works'),
     path('additional/', additional, name='additional'),
