@@ -1,0 +1,20 @@
+{% extends 'balloon/base.html' %}
+
+{% block content %}
+<ul class="list-articles">
+	{% for g in goods %}
+		{% if g.photo %}
+			<p><img class="img-article-left thumb" src="{{ g.photo.url }}" alt="picture of balloon"></p>
+		{% endif %}
+			<li><h2>{{ g.name }}</h2>
+<!--	{% autoescape on %}-->
+<!--Убрать фильтры в след строчке, если не будет динного описания-->
+	{{ g.description|linebreaks|truncatewords:50 }}
+	<h4>Цена: <font color="red">{{ g.price }} р.</font></h4>
+<!--	{% endautoescape %}-->
+			<div class="clear"></div>
+			<p class="link-read-post"><a href="{{ g.get_absolute_url }}">Подробнее</a></p>
+			</li>
+	{% endfor %}
+</ul>
+{% endblock %}
