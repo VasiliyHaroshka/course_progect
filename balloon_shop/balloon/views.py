@@ -1,16 +1,17 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 
 from .models import *
+from .forms import *
 
 menu = [
     {"title": "О нас", "url_name": "about"},
     {"title": "Наши работы", "url_name": "works"},
-    {"title": "Дополнительное оформление", "url_name": "additional"},
     {"title": "Доставка", "url_name": "delivery"},
     {"title": "Отзывы", "url_name": "reviews"},
     {"title": "Промо-код", "url_name": "promocode"},
+    {"title": "Добавить товар", "url_name": "add_product"},
     {"title": "Регистрация", "url_name": "register"},
     {"title": "Войти", "url_name": "login"},
 ]
@@ -65,6 +66,18 @@ class CertainProduct(DetailView):
         return context
 
 
+class AddProduct(CreateView):
+    form_class = AddProductForm
+    template_name = 'balloon/add_product.html'
+
+    def get_context_data(self, *, object_list=None, groups=Group.objects.all(), **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = 'Добавление продукта на сайт'
+        context['groups'] = groups
+        return context
+
+
 def page_not_found(request, exception):
     return HttpResponseNotFound("<h1>Страница не существует!!!<h1>")
 
@@ -94,10 +107,6 @@ def about(request):
 
 def works(request):
     return HttpResponse("Наши работы")
-
-
-def additional(request):
-    return HttpResponse("Дополнительное оформление")
 
 
 def delivery(request):
