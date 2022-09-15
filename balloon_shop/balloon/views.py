@@ -1,5 +1,7 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import ListView
+
 from .models import *
 
 menu = [
@@ -13,19 +15,35 @@ menu = [
     {"title": "Войти", "url_name": "login"},
 ]
 
+groups = Group.objects.all()
 
-def index(request):
-    goods = Balloon.objects.filter(is_onsite=True)
-    groups = Group.objects.all()
 
-    context = {
-        'title': 'Главная страница',
-        'menu': menu,
-        'goods': goods,
-        'groups': groups,
-        'group_selected': 0,
-    }
-    return render(request, 'balloon/index.html', context)
+class HomePage(ListView):
+    model = Balloon
+    template_name = 'balloon/index.html'
+    context_object_name = 'goods'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = "Главная страница"
+        context['groups'] = groups
+        context['group_selected'] = 0
+        return context
+
+
+# def index(request):
+#     goods = Balloon.objects.filter(is_onsite=True)
+#     groups = Group.objects.all()
+#
+#     context = {
+#         'title': 'Главная страница',
+#         'menu': menu,
+#         'goods': goods,
+#         'groups': groups,
+#         'group_selected': 0,
+#     }
+#     return render(request, 'balloon/index.html', context)
 
 
 def group(request, group_slug):
