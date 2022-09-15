@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from .models import *
 
@@ -15,15 +15,13 @@ menu = [
     {"title": "Войти", "url_name": "login"},
 ]
 
-groups = Group.objects.all()
-
 
 class HomePage(ListView):
     model = Balloon
     template_name = 'balloon/index.html'
     context_object_name = 'goods'
 
-    def get_context_data(self, *, object_list=None, **kwargs):
+    def get_context_data(self, *, object_list=None, groups=Group.objects.all(), **kwargs):
         context = super().get_context_data(**kwargs)
         context['menu'] = menu
         context['title'] = "Главная страница"
@@ -31,32 +29,40 @@ class HomePage(ListView):
         context['group_selected'] = 0
         return context
 
-
-# def index(request):
-#     goods = Balloon.objects.filter(is_onsite=True)
-#     groups = Group.objects.all()
-#
-#     context = {
-#         'title': 'Главная страница',
-#         'menu': menu,
-#         'goods': goods,
-#         'groups': groups,
-#         'group_selected': 0,
-#     }
-#     return render(request, 'balloon/index.html', context)
+    def get_queryset(self):
+        return Balloon.objects.filter(is_onsite=True)
 
 
-def group(request, group_slug):
-    goods = Balloon.objects.filter(group__slug=group_slug, is_onsite=True)
-    groups = Group.objects.all()
-    context = {
-        'title': 'Категория товаров',
-        'menu': menu,
-        'goods': goods,
-        'groups': groups,
-        'group_selected': group_slug,
-    }
-    return render(request, 'balloon/index.html', context)
+class ShowGoodsInGroup(ListView):
+    model = Balloon
+    template_name = "balloon/index.html"
+    context_object_name = 'goods'
+    allow_empty = False
+
+    def get_context_data(self, *, object_list=None, groups=Group.objects.all(), **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = str(context['goods'][0].group)
+        context['groups'] = groups
+        context['group_selected'] = context['goods'][0].group_id
+        return context
+
+    def get_queryset(self):
+        return Balloon.objects.filter(group__slug=self.kwargs['group_slug'], is_onsite=True)
+
+
+class CertainProduct(DetailView):
+    model = Balloon
+    template_name = 'balloon/show_product.html'
+    slug_url_kwarg = 'good_slug'
+    context_object_name = 'good'
+
+    def get_context_data(self, *, object_list=None, groups=Group.objects.all(), **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = context['good']
+        context['groups'] = groups
+        return context
 
 
 def page_not_found(request, exception):
@@ -64,26 +70,26 @@ def page_not_found(request, exception):
 
 
 def about(request):
-    groups = Group.objects.filter()
+    groups = Group.objects.all()
     context = {
-        'title': 'Категория товаров',
+        'title': 'О нас',
         'menu': menu,
         'groups': groups,
     }
     return render(request, 'balloon/about.html', context)
 
 
-def detail(request, good_slug):
-    good = get_object_or_404(Balloon, slug=good_slug)
-
-    context = {
-        'good': good,
-        'menu': menu,
-        'title': good.name,
-        'group_selected': good.group_id,
-    }
-
-    return render(request, 'balloon/show_product.html', context)
+# def detail(request, good_slug):
+#     good = get_object_or_404(Balloon, slug=good_slug)
+#
+#     context = {
+#         'good': good,
+#         'menu': menu,
+#         'title': good.name,
+#         'group_selected': good.group_id,
+#     }
+#
+#     return render(request, 'balloon/show_product.html', context)
 
 
 def works(request):
