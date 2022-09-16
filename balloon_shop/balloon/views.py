@@ -1,40 +1,30 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
 from .models import *
 from .forms import *
-
-menu = [
-    {"title": "О нас", "url_name": "about"},
-    {"title": "Наши работы", "url_name": "works"},
-    {"title": "Доставка", "url_name": "delivery"},
-    {"title": "Отзывы", "url_name": "reviews"},
-    {"title": "Промо-код", "url_name": "promocode"},
-    {"title": "Добавить товар", "url_name": "add_product"},
-    {"title": "Регистрация", "url_name": "register"},
-    {"title": "Войти", "url_name": "login"},
-]
+from .utils import *
 
 
-class HomePage(ListView):
+class HomePage(DataMixin, ListView):
     model = Balloon
     template_name = 'balloon/index.html'
     context_object_name = 'goods'
 
-    def get_context_data(self, *, object_list=None, groups=Group.objects.all(), **kwargs):
+    def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = menu
-        context['title'] = "Главная страница"
-        context['groups'] = groups
-        context['group_selected'] = 0
-        return context
+        mixin_context = self.get_user_context(title='Главная страница')
+        finally_context = dict(list(context.items()) + list(mixin_context.items()))
+        return finally_context
 
     def get_queryset(self):
         return Balloon.objects.filter(is_onsite=True)
 
 
-class ShowGoodsInGroup(ListView):
+class ShowGoodsInGroup(DataMixin, ListView):
     model = Balloon
     template_name = "balloon/index.html"
     context_object_name = 'goods'
@@ -42,40 +32,39 @@ class ShowGoodsInGroup(ListView):
 
     def get_context_data(self, *, object_list=None, groups=Group.objects.all(), **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = menu
-        context['title'] = str(context['goods'][0].group)
-        context['groups'] = groups
-        context['group_selected'] = context['goods'][0].group_id
-        return context
+        mixin_context = self.get_user_context(title=str(context['goods'][0].group),
+                                              group_selected=context['goods'][0].group_id)
+        finally_context = dict(list(context.items()) + list(mixin_context.items()))
+        return finally_context
 
     def get_queryset(self):
         return Balloon.objects.filter(group__slug=self.kwargs['group_slug'], is_onsite=True)
 
 
-class CertainProduct(DetailView):
+class CertainProduct(DataMixin, DetailView):
     model = Balloon
     template_name = 'balloon/show_product.html'
     slug_url_kwarg = 'good_slug'
     context_object_name = 'good'
 
-    def get_context_data(self, *, object_list=None, groups=Group.objects.all(), **kwargs):
+    def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = menu
-        context['title'] = context['good']
-        context['groups'] = groups
-        return context
+        mixin_context = self.get_user_context(title=context['good'])
+        finally_context = dict(list(context.items()) + list(mixin_context.items()))
+        return finally_context
 
 
-class AddProduct(CreateView):
+class AddProduct(LoginRequiredMixin, DataMixin, CreateView):
     form_class = AddProductForm
     template_name = 'balloon/add_product.html'
+    login_url = reverse_lazy('home')
+    raise_exception = True
 
-    def get_context_data(self, *, object_list=None, groups=Group.objects.all(), **kwargs):
+    def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = menu
-        context['title'] = 'Добавление продукта на сайт'
-        context['groups'] = groups
-        return context
+        mixin_context = self.get_user_context(title='Добавление товара на сайт')
+        finally_context = dict(list(context.items()) + list(mixin_context.items()))
+        return finally_context
 
 
 def page_not_found(request, exception):
