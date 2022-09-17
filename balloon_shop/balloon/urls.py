@@ -11,6 +11,6 @@ urlpatterns = [
     path('delivery/', delivery, name='delivery'),
     path('reviews/', reviews, name='reviews'),
     path('promocode/', promocode, name='promocode'),
-    path('register/', register, name='register'),
+    path('register/', Registration.as_view(), name='register'),
     path('login/', login, name='login'),
 ]

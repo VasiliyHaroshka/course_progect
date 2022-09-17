@@ -110,8 +110,17 @@ def promocode(request):
     return HttpResponse("Промо-код")
 
 
-def register(request):
-    return HttpResponse("Регистрация")
+class Registration(DataMixin, CreateView):
+    form_class = RegistrationForm
+    template_name = 'balloon/register.html'
+    success_url = reverse_lazy('login')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        mixin_context = self.get_user_context(title='Регистрация')
+        finally_context = dict(list(context.items()) + list(mixin_context.items()))
+        return finally_context
+
 
 
 def login(request):
