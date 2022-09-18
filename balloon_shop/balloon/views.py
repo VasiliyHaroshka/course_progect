@@ -30,7 +30,7 @@ class ShowGoodsInGroup(DataMixin, ListView):
     context_object_name = 'goods'
     allow_empty = False
 
-    def get_context_data(self, *, object_list=None, groups=Group.objects.all(), **kwargs):
+    def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         mixin_context = self.get_user_context(title=str(context['goods'][0].group),
                                               group_selected=context['goods'][0].group_id)
