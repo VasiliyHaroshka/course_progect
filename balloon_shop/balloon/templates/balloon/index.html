@@ -4,9 +4,13 @@
 <ul class="list-articles">
 	{% for g in goods %}
 		{% if g.photo %}
-			<p><img class="img-article-left thumb" src="{{ g.photo.url }}" alt="picture of balloon"></p>
+			<p>
+				<a href="{{ g.get_absolute_url }}">
+					<img class="img-article-left thumb" src="{{ g.photo.url }}" alt="picture of balloon">
+				</a>
+			</p>
 		{% endif %}
-			<li><h2>{{ g.name }}</h2>
+			<li><h2><a href="{{ g.get_absolute_url }}">{{ g.name }}</a></h2>
 <!--	{% autoescape on %}-->
 <!--Убрать фильтры в след строчке, если не будет динного описания-->
 	{{ g.description|linebreaks|truncatewords:50 }}

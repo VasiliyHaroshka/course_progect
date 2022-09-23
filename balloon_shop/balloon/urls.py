@@ -12,5 +12,6 @@ urlpatterns = [
     path('reviews/', reviews, name='reviews'),
     path('promocode/', promocode, name='promocode'),
     path('register/', Registration.as_view(), name='register'),
-    path('login/', login, name='login'),
+    path('login/', Logging.as_view(), name='login'),
+    path('logout/', logout_user, name='logout'),
 ]

@@ -9,7 +9,7 @@ class Balloon(models.Model):
     price = models.IntegerField(verbose_name='цена')
     photo = models.ImageField(upload_to='photos/', verbose_name='адрес фото')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='время создания')
-    time_modified = models.DateTimeField(auto_now=True, verbose_name='вермя изменения')
+    time_modified = models.DateTimeField(auto_now=True, verbose_name='время изменения')
     is_onsite = models.BooleanField(default=True, verbose_name='публикация')
     group = models.ForeignKey('Group', on_delete=models.PROTECT, verbose_name='группа')
 
