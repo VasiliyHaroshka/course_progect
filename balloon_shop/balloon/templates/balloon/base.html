@@ -5,7 +5,7 @@
 	<title>{{ title }}</title>
 	<link type="text/css" href="{% static 'balloon/css/styles.css' %}" rel="stylesheet" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="shortcut icon" href="{% static 'balloon/images/main.png' %}" type="image/x-icon"/>
+	<link rel="shortcut icon" href="{% static 'balloon/images/blue-balloon.png' %}" type="image/x-icon"/>
 <!--	<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
 </head>
 <body>
@@ -78,7 +78,7 @@
 <!-- Блок контента -->
 	{% if request.user.is_authenticated %}
 	{% else %}
-		<h4 align="center"><i>При регистрации в главном меню Вам будет доступен <font color="red">промокод на скидку!</font> </i></h4>
+		<h4 align="center"><i><a href="{% url 'register' %}">При регистрации</a> в главном меню Вам будет доступен <font color="red">промокод на скидку!</font> </i></h4>
 	{% endif %}
 
 <div class="content-text">

@@ -23,6 +23,7 @@ from balloon.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('balloon.urls')),
+    path('captcha', include('captcha.urls')),
 ]
 
 if settings.DEBUG:
