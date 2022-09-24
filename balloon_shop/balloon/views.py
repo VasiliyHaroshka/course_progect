@@ -10,6 +10,13 @@ from .models import *
 from .forms import *
 from .utils import *
 
+menu = [
+    {"title": "О нас", "url_name": "about"},
+    {"title": "Наши работы", "url_name": "works"},
+    {"title": "Доставка", "url_name": "delivery"},
+    {"title": "Отзывы", "url_name": "reviews"},
+]
+
 
 class HomePage(DataMixin, ListView):
     model = Balloon
@@ -83,33 +90,28 @@ def about(request):
     return render(request, 'balloon/about.html', context)
 
 
-# def detail(request, good_slug):
-#     good = get_object_or_404(Balloon, slug=good_slug)
-#
-#     context = {
-#         'good': good,
-#         'menu': menu,
-#         'title': good.name,
-#         'group_selected': good.group_id,
-#     }
-#
-#     return render(request, 'balloon/show_product.html', context)
-
-
 def works(request):
     return HttpResponse("Наши работы")
 
 
 def delivery(request):
-    return HttpResponse("Доставка")
+    groups = Group.objects.all()
+    context = {
+        'title': 'Доставка',
+        'menu': menu,
+        'groups': groups,
+    }
+    return render(request, 'balloon/delivery.html', context)
 
 
 def reviews(request):
-    return HttpResponse("Отзывы")
-
-
-def promocode(request):
-    return HttpResponse("Промо-код")
+    groups = Group.objects.all()
+    context = {
+        'title': 'Отзывы',
+        'menu': menu,
+        'groups': groups,
+    }
+    return render(request, 'balloon/reviews.html', context)
 
 
 class Registration(DataMixin, CreateView):

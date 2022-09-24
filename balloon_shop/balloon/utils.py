@@ -5,7 +5,6 @@ menu = [
     {"title": "Наши работы", "url_name": "works"},
     {"title": "Доставка", "url_name": "delivery"},
     {"title": "Отзывы", "url_name": "reviews"},
-    {"title": "Промо-код", "url_name": "promocode"},
     {"title": "Добавить товар", "url_name": "add_product"},
 ]
 
@@ -19,10 +18,8 @@ class DataMixin:
 
         allowed_menu = menu.copy()
         if not self.request.user.is_superuser:
-            allowed_menu.pop(5)
-
-        if not self.request.user.is_authenticated:
             allowed_menu.pop(4)
+
         context['menu'] = allowed_menu
 
         context['groups'] = groups

@@ -10,7 +10,6 @@ urlpatterns = [
     path('works/', works, name='works'),
     path('delivery/', delivery, name='delivery'),
     path('reviews/', reviews, name='reviews'),
-    path('promocode/', promocode, name='promocode'),
     path('register/', Registration.as_view(), name='register'),
     path('login/', Logging.as_view(), name='login'),
     path('logout/', logout_user, name='logout'),
