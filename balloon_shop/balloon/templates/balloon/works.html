@@ -1,0 +1,24 @@
+{% extends 'balloon/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="row">
+  <div class="column">
+    <img src="{% static 'balloon/images/30_years_man.jpg' %}" style="width:100%">
+    <img src="{% static 'balloon/images/boy_girl.jpg' %}" style="width:100%">
+    <img src="{% static 'balloon/images/cake.jpg' %}" style="width:100%">
+  </div>
+  <div class="column">
+    <img src="{% static 'balloon/images/star_wars.jpg' %}" style="width:100%">
+    <img src="{% static 'balloon/images/whiskey.jpg' %}" style="width:100%">
+     <img src="{% static 'balloon/images/newborn.jpg' %}" style="width:100%">
+  </div>
+  <div class="column">
+    <img src="{% static 'balloon/images/all_ceiling.jpg' %}" style="width:100%">
+    <img src="{% static 'balloon/images/red_hearts.jpg' %}" style="width:100%">
+     <img src="{% static 'balloon/images/kid_3.jpg' %}" style="width:100%">
+  </div>
+</div>
+
+{% endblock %}

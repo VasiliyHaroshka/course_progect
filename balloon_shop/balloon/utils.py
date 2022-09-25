@@ -6,6 +6,7 @@ menu = [
     {"title": "Доставка", "url_name": "delivery"},
     {"title": "Отзывы", "url_name": "reviews"},
     {"title": "Добавить товар", "url_name": "add_product"},
+    # {"title": "Обратная связь", "url_name": "feedback"},
 ]
 
 
@@ -19,6 +20,9 @@ class DataMixin:
         allowed_menu = menu.copy()
         if not self.request.user.is_superuser:
             allowed_menu.pop(4)
+
+        # if not self.request.user.is_authenticated:
+        #     allowed_menu.pop(4)
 
         context['menu'] = allowed_menu
 

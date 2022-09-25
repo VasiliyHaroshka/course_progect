@@ -1,10 +1,15 @@
+import os
+
+from django.contrib import messages
 from django.contrib.auth import logout, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, FormView
+from django.core.mail import send_mail
 
 from .models import *
 from .forms import *
@@ -15,6 +20,7 @@ menu = [
     {"title": "Наши работы", "url_name": "works"},
     {"title": "Доставка", "url_name": "delivery"},
     {"title": "Отзывы", "url_name": "reviews"},
+    # {"title": "Обратная связь", "url_name": "feedback"},
 ]
 
 
@@ -91,7 +97,13 @@ def about(request):
 
 
 def works(request):
-    return HttpResponse("Наши работы")
+    groups = Group.objects.all()
+    context = {
+        'title': 'Наши работы',
+        'menu': menu,
+        'groups': groups,
+    }
+    return render(request, 'balloon/works.html', context)
 
 
 def delivery(request):
@@ -148,3 +160,46 @@ class Logging(DataMixin, LoginView):
 def logout_user(request):
     logout(request)
     return redirect('home')
+
+
+# @login_required
+# def feedback(request):
+#     groups = Group.objects.all()
+#     if request.method == 'POST':
+#         form = FeedbackForm(request.POST)
+#         if form.is_valid():
+#             mail = send_mail(form.cleaned_data['subject'],
+#                              form.cleaned_data['content'],
+#                              'vasiliyharoshka@gmail.com',
+#                              ['goroshkovasiliy@yandex.ru'],
+#                              fail_silently=False)
+#             if mail:
+#                 messages.success(request, 'Ваше сообщение отправлено')
+#                 return redirect('home')
+#             else:
+#                 messages.error(request, 'Ошибка отправки')
+#     else:
+#         form = FeedbackForm()
+#     context = {
+#             'title': 'Отзывы',
+#             'menu': menu,
+#             'groups': groups,
+#             'form': form,
+#         }
+#     return render(request, 'balloon/feedback.html', context)
+
+
+# class Feedback(DataMixin, FormView):
+#     form_class = FeedbackForm
+#     template_name = 'balloon/feedback.html'
+#     success_url = reverse_lazy('home')
+#
+#     def get_context_data(self, *, object_list=None, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         mixin_context = self.get_user_context(title="Обратная связь")
+#         finally_context = dict(list(context.items()) + list(mixin_context.items()))
+#         return finally_context
+#
+#     def form_valid(self, form):
+#         print(form.cleaned_data)
+#         return redirect('home')
