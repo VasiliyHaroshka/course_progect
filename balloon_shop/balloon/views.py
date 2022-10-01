@@ -1,6 +1,5 @@
 import os
-
-from django.contrib import messages
+from .telegramm import send_message
 from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -20,7 +19,8 @@ menu = [
     {"title": "Наши работы", "url_name": "works"},
     {"title": "Доставка", "url_name": "delivery"},
     {"title": "Отзывы", "url_name": "reviews"},
-    # {"title": "Обратная связь", "url_name": "feedback"},
+    {"title": "Добавить товар", "url_name": "add_product"},
+    {"title": "Обратная связь", "url_name": "feedback"},
 ]
 
 
@@ -32,8 +32,7 @@ class HomePage(DataMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         mixin_context = self.get_user_context(title='Главная страница')
-        finally_context = dict(list(context.items()) + list(mixin_context.items()))
-        return finally_context
+        return {**context, **mixin_context}
 
     def get_queryset(self):
         return Balloon.objects.filter(is_onsite=True)
@@ -49,8 +48,7 @@ class ShowGoodsInGroup(DataMixin, ListView):
         context = super().get_context_data(**kwargs)
         mixin_context = self.get_user_context(title=str(context['goods'][0].group),
                                               group_selected=context['goods'][0].group_id)
-        finally_context = dict(list(context.items()) + list(mixin_context.items()))
-        return finally_context
+        return {**context, **mixin_context}
 
     def get_queryset(self):
         return Balloon.objects.filter(group__slug=self.kwargs['group_slug'], is_onsite=True)
@@ -65,8 +63,7 @@ class CertainProduct(DataMixin, DetailView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         mixin_context = self.get_user_context(title=context['good'])
-        finally_context = dict(list(context.items()) + list(mixin_context.items()))
-        return finally_context
+        return {**context, **mixin_context}
 
 
 class AddProduct(LoginRequiredMixin, DataMixin, CreateView):
@@ -78,19 +75,21 @@ class AddProduct(LoginRequiredMixin, DataMixin, CreateView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         mixin_context = self.get_user_context(title='Добавление товара на сайт')
-        finally_context = dict(list(context.items()) + list(mixin_context.items()))
-        return finally_context
+        return {**context, **mixin_context}
 
 
 def page_not_found(request, exception):
-    return HttpResponseNotFound("<h1>Страница не существует!!!<h1>")
+    return HttpResponseNotFound("Страница не существует!!!")
 
 
 def about(request):
     groups = Group.objects.all()
+    allowed_menu = menu.copy()
+    if not request.user.is_superuser:
+        allowed_menu.pop(4)
     context = {
         'title': 'О нас',
-        'menu': menu,
+        'menu': allowed_menu,
         'groups': groups,
     }
     return render(request, 'balloon/about.html', context)
@@ -98,9 +97,12 @@ def about(request):
 
 def works(request):
     groups = Group.objects.all()
+    allowed_menu = menu.copy()
+    if not request.user.is_superuser:
+        allowed_menu.pop(4)
     context = {
         'title': 'Наши работы',
-        'menu': menu,
+        'menu': allowed_menu,
         'groups': groups,
     }
     return render(request, 'balloon/works.html', context)
@@ -108,9 +110,12 @@ def works(request):
 
 def delivery(request):
     groups = Group.objects.all()
+    allowed_menu = menu.copy()
+    if not request.user.is_superuser:
+        allowed_menu.pop(4)
     context = {
         'title': 'Доставка',
-        'menu': menu,
+        'menu': allowed_menu,
         'groups': groups,
     }
     return render(request, 'balloon/delivery.html', context)
@@ -118,9 +123,12 @@ def delivery(request):
 
 def reviews(request):
     groups = Group.objects.all()
+    allowed_menu = menu.copy()
+    if not request.user.is_superuser:
+        allowed_menu.pop(4)
     context = {
         'title': 'Отзывы',
-        'menu': menu,
+        'menu': allowed_menu,
         'groups': groups,
     }
     return render(request, 'balloon/reviews.html', context)
@@ -134,13 +142,12 @@ class Registration(DataMixin, CreateView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
         mixin_context = self.get_user_context(title='Регистрация')
-        finally_context = dict(list(context.items()) + list(mixin_context.items()))
-        return finally_context
+        return {**context, **mixin_context}
 
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return redirect('home')
+        return redirect('successfully')
 
 
 class Logging(DataMixin, LoginView):
@@ -150,11 +157,10 @@ class Logging(DataMixin, LoginView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         mixin_context = self.get_user_context(title='Авторизация')
-        finally_context = dict(list(context.items()) + list(mixin_context.items()))
-        return finally_context
+        return {**context, **mixin_context}
 
     def get_success_url(self):
-        return reverse_lazy('home')
+        return reverse_lazy('successfully')
 
 
 def logout_user(request):
@@ -162,44 +168,34 @@ def logout_user(request):
     return redirect('home')
 
 
-# @login_required
-# def feedback(request):
-#     groups = Group.objects.all()
-#     if request.method == 'POST':
-#         form = FeedbackForm(request.POST)
-#         if form.is_valid():
-#             mail = send_mail(form.cleaned_data['subject'],
-#                              form.cleaned_data['content'],
-#                              'vasiliyharoshka@gmail.com',
-#                              ['goroshkovasiliy@yandex.ru'],
-#                              fail_silently=False)
-#             if mail:
-#                 messages.success(request, 'Ваше сообщение отправлено')
-#                 return redirect('home')
-#             else:
-#                 messages.error(request, 'Ошибка отправки')
-#     else:
-#         form = FeedbackForm()
-#     context = {
-#             'title': 'Отзывы',
-#             'menu': menu,
-#             'groups': groups,
-#             'form': form,
-#         }
-#     return render(request, 'balloon/feedback.html', context)
+class Feedback(DataMixin, FormView):
+    form_class = FeedbackForm
+    template_name = 'balloon/feedback.html'
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        mixin_context = self.get_user_context(title="Обратная связь")
+        return {**context, **mixin_context}
+
+    def form_valid(self, form):
+        name = form.cleaned_data['name']
+        phone = form.cleaned_data['phone']
+        information = form.cleaned_data['information']
+        message = f"Поступил новый заказ с сайта!!!\nИмя: {str(name)}\nТелефон: " \
+                  f"{str(phone)}\nСообщение: {str(information)}"
+        send_message(message)
+        return redirect('home')
 
 
-# class Feedback(DataMixin, FormView):
-#     form_class = FeedbackForm
-#     template_name = 'balloon/feedback.html'
-#     success_url = reverse_lazy('home')
-#
-#     def get_context_data(self, *, object_list=None, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         mixin_context = self.get_user_context(title="Обратная связь")
-#         finally_context = dict(list(context.items()) + list(mixin_context.items()))
-#         return finally_context
-#
-#     def form_valid(self, form):
-#         print(form.cleaned_data)
-#         return redirect('home')
+def successfully(request):
+    groups = Group.objects.all()
+    allowed_menu = menu.copy()
+    if not request.user.is_superuser:
+        allowed_menu.pop(4)
+    context = {
+        'title': 'Успешно',
+        'menu': allowed_menu,
+        'groups': groups,
+    }
+    return render(request, 'balloon/successfully.html', context)

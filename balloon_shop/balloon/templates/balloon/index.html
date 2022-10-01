@@ -11,13 +11,8 @@
 			</p>
 		{% endif %}
 			<li><h2><a href="{{ g.get_absolute_url }}">{{ g.name }}</a></h2>
-<!--	{% autoescape on %}-->
-<!--Убрать фильтры в след строчке, если не будет динного описания-->
 	{{ g.description|linebreaks|truncatewords:50 }}
 	<h4>Цена: <font color="red">{{ g.price }} р.</font></h4>
-<!--	{% endautoescape %}-->
-			<div class="clear"></div>
-<!--			<p class="link-read-post"><a href="{{ g.get_absolute_url }}">Подробнее</a></p>-->
 			</li>
 	{% endfor %}
 </ul>

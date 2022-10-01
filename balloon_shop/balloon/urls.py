@@ -10,8 +10,9 @@ urlpatterns = [
     path('works/', works, name='works'),
     path('delivery/', delivery, name='delivery'),
     path('reviews/', reviews, name='reviews'),
-    # path('feedback/', Feedback.as_view(), name='feedback'),
+    path('feedback/', Feedback.as_view(), name='feedback'),
     path('register/', Registration.as_view(), name='register'),
     path('login/', Logging.as_view(), name='login'),
     path('logout/', logout_user, name='logout'),
+    path('successfully/', successfully, name='successfully'),
 ]

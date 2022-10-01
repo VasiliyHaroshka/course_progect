@@ -39,9 +39,9 @@ class LoginForm(AuthenticationForm):
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
 
 
-# class FeedbackForm(forms.Form):
-#     subject = forms.CharField(label='Имя', max_length=255, required=True)
-#     email = forms.EmailField(label='Email', required=True)
-#     content = forms.CharField(label='Текст', widget=forms.Textarea(attrs={'cols': 60, 'rows': 20}),required=True)
-#     captcha = CaptchaField()
+class FeedbackForm(forms.Form):
+    name = forms.CharField(label='Имя', max_length=255, required=True)
+    phone = forms.CharField(label='Телефон', required=True)
+    information = forms.CharField(label='Сообщение', widget=forms.Textarea(attrs={'cols': 50, 'rows': 10}),required=True)
+    captcha = CaptchaField()
 
