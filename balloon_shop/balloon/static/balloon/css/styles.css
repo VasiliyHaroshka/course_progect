@@ -13,7 +13,7 @@ a {
 }
 a:hover {
 	color: #CC0000;
-	text-decoration: underline;
+
 }
 
 img {max-width: 600px; height: auto;}
@@ -64,7 +64,7 @@ ul.list-articles {
 	padding: 0;
 }
 ul.list-articles li {
-	border-bottom: 1px solid #ccc;
+	border-bottom: 1px solid #000000;
 }
 
 .table-page {
@@ -364,7 +364,7 @@ ul.lang-list li a:hover {color: #fdc073;}
 	overflow: hidden;
 }
 #footer a {
-	text-decoration: underline;
+	text-decoration: none;
 	color: #aaa;
 }
 
@@ -457,3 +457,9 @@ button.link-send:hover {
     color: #ffc300;
 }
 
+.pagination a {
+    font-size: 24px;
+    text-align: center;
+    margin: 5 4px;
+    color: #5F9DEC;
+}

@@ -3,7 +3,7 @@
 <html>
 <head>
 	<title>{{ title }}</title>
-	<link type="text/css" href="{% static 'balloon/css/styles.css' %}" rel="stylesheet" />
+	<link type="text/css" href="{% static 'balloon/css/styles.css' %}" rel="stylesheet"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<link rel="shortcut icon" href="{% static 'balloon/images/blue-balloon.png' %}" type="image/x-icon"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,10 +45,11 @@
 						<a href="{% url 'logout' %}">Выйти</a>
 					</li>
 				{% else %}
-					<li class="last"> Вы вошли как: "{{ user.username }}" &emsp;<a href="{% url 'logout' %}">Выйти</a></li>
+					<li class="last"> Вы вошли как: "{{ user.username }}"&emsp;<a href="{% url 'logout' %}">Выйти</a></li>
 				{% endif %}
 			{% else %}
-				<li class="last"><a href="{% url 'register' %}">Регистрация / </a>
+				<li class="last"><a href="{% url 'register' %}">Регистрация</a>
+					<font color="white">/</font>
 					<a href="{% url 'login' %}">Войти</a>
 				</li>
 			{% endif %}
@@ -91,13 +92,13 @@
 
 <!-- Блок контента -->
 	{% if request.user.is_authenticated %}
-		{% if request.user.is_superuser %}
-		{% else %}
-		<h4 align="center">Спасибо за регистрацию! При заказе сообщите промокод "MyItSchool" и получите
-			<font color="red">скидку 5%</font> на заказ</h4>
+		{% if not request.user.is_superuser %}
+			<h3 align="center">Спасибо за регистрацию! При заказе сообщите промокод "MyItSchool" и получите
+			<font color="red">скидку 5%</font> на заказ</h3>
 		{% endif %}
 	{% else %}
-		<h4 align="center"><i><a href="{% url 'register' %}">После регистрации</a> Вам будет доступен <font color="red">промокод на скидку!</font> </i></h4>
+		<h3 align="center"><i><a href="{% url 'register' %}">После регистрации</a> Вам будет доступен
+		<font color="red">промокод на скидку!</font> </i></h3>
 	{% endif %}
 
 <div class="content-text">
@@ -107,24 +108,28 @@
 {% endblock %}
 
 {% if page_obj.has_other_pages %}
+	<div class="pagination" align="center">
+		<br>
 	<nav>
 		{% if page_obj.has_previous %}
-			<a href="?page={{ page_obj.previous_page_number }}"><</a>
+			<a href="?page={{ page_obj.previous_page_number }}">&#9668;</a>
+
 		{% endif %}
 
 		{% for p in paginator.page_range %}
 			{% if page_obj.number == p %}
-				{{ p }}
+				<font color="red">{{ p }}</font>
 			{% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
 				<a href="?page={{ p }}">{{ p }}</a>
 			{% endif %}
 		{% endfor %}
 
 		{% if page_obj.has_next %}
-			<a href="?page={{ page_obj.next_page_number }}">></a>
+			<a href="?page={{ page_obj.next_page_number }}">&#9658;</a>
 		{% endif %}
 	</nav>
 {% endif %}
+	</div>
 
 </div>
 
@@ -134,7 +139,8 @@
 <!-- Footer -->
 <tr><td valign=top>
 	<div id="footer">
-		<p>© 2022 Разработчик: Горошко Василий Иванович</p>
+		<p><a href="https://www.linkedin.com/in/vasiliy-haroshka-2088b3240">
+		<font color="white">© 2022 Разработчик: Горошко Василий Иванович</font></a></p>
 	</div>
 </td></tr></table>
 <!-- Конец footer'а и страницы -->

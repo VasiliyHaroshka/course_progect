@@ -22,7 +22,7 @@ class Balloon(models.Model):
     class Meta:
         verbose_name = "Шар"
         verbose_name_plural = "Шары"
-        ordering = ['time_modified']
+        ordering = ['-time_modified']
 
 
 class Group(models.Model):

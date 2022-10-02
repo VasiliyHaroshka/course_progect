@@ -20,7 +20,7 @@ menu = [
     {"title": "Доставка", "url_name": "delivery"},
     {"title": "Отзывы", "url_name": "reviews"},
     {"title": "Добавить товар", "url_name": "add_product"},
-    {"title": "Обратная связь", "url_name": "feedback"},
+    {"title": "Сделать заказ/задать вопрос", "url_name": "feedback"},
 ]
 
 
@@ -182,10 +182,12 @@ class Feedback(DataMixin, FormView):
         name = form.cleaned_data['name']
         phone = form.cleaned_data['phone']
         information = form.cleaned_data['information']
-        message = f"Поступил новый заказ с сайта!!!\nИмя: {str(name)}\nТелефон: " \
-                  f"{str(phone)}\nСообщение: {str(information)}"
+        message = f"НОВОЕ СООБЩЕНИЕ!!!" \
+                  f"\nИМЯ: {str(name)}\n" \
+                  f"ТЕЛЕФОН: {str(phone)}\n" \
+                  f"ТЕКСТ: {str(information)}"
         send_message(message)
-        return redirect('home')
+        return redirect('successfully')
 
 
 def successfully(request):
