@@ -78,10 +78,6 @@ class AddProduct(LoginRequiredMixin, DataMixin, CreateView):
         return {**context, **mixin_context}
 
 
-def page_not_found(request, exception):
-    return HttpResponseNotFound("Страница не существует!!!")
-
-
 def about(request):
     groups = Group.objects.all()
     allowed_menu = menu.copy()
@@ -182,8 +178,8 @@ class Feedback(DataMixin, FormView):
         name = form.cleaned_data['name']
         phone = form.cleaned_data['phone']
         information = form.cleaned_data['information']
-        message = f"НОВОЕ СООБЩЕНИЕ!!!" \
-                  f"\nИМЯ: {str(name)}\n" \
+        message = f"НОВОЕ СООБЩЕНИЕ!!!\n" \
+                  f"ИМЯ: {str(name)}\n" \
                   f"ТЕЛЕФОН: {str(phone)}\n" \
                   f"ТЕКСТ: {str(information)}"
         send_message(message)
@@ -201,3 +197,7 @@ def successfully(request):
         'groups': groups,
     }
     return render(request, 'balloon/successfully.html', context)
+
+
+def page_not_found(request, exception):
+    return render(request, "error404.html")

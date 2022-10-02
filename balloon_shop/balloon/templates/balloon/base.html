@@ -118,7 +118,7 @@
 
 		{% for p in paginator.page_range %}
 			{% if page_obj.number == p %}
-				<font color="red">{{ p }}</font>
+				<font size="6" color="red" >{{ p }}</font>
 			{% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
 				<a href="?page={{ p }}">{{ p }}</a>
 			{% endif %}
