@@ -463,3 +463,21 @@ button.link-send:hover {
     margin: 5 4px;
     color: #5F9DEC;
 }
+
+.to-top a {
+	position: fixed;
+	font-size: 15px;
+	right: 60px;
+	bottom: 90px;
+	text-align: center;
+	padding: 10px;
+	min-width: 100px;
+	background: #5F9DEC;
+	text-decoration: none;
+	border-radius: 10px;
+	border: 0;
+}
+
+.to-top:hover a {
+    color: #ffc300;
+}

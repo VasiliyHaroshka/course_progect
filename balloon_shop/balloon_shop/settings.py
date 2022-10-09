@@ -129,10 +129,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 465
-# EMAIL_HOST_USER = 'vasiliyharoshka@gmail.com'
-# EMAIL_HOST_PASSWORD = ''
-# EMAIL_USE_TLS = True
-# EMAIL_USE_SSL = False
+CAPTCHA_FONT_SIZE = 30
+CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'
+CAPTCHA_BACKGROUND_COLOR = '#5F9DEC'
+CAPTCHA_FOREGROUND_COLOR = '#ffffff'

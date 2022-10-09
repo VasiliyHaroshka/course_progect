@@ -1,14 +1,11 @@
-import os
 from .telegramm import send_message
 from django.contrib.auth import logout, login
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, FormView
-from django.core.mail import send_mail
 
 from .models import *
 from .forms import *
@@ -24,7 +21,7 @@ menu = [
 ]
 
 
-class HomePage(DataMixin, ListView):
+class HomePage(Mixin, ListView):
     model = Balloon
     template_name = 'balloon/index.html'
     context_object_name = 'goods'
@@ -38,7 +35,7 @@ class HomePage(DataMixin, ListView):
         return Balloon.objects.filter(is_onsite=True)
 
 
-class ShowGoodsInGroup(DataMixin, ListView):
+class ShowGoodsInGroup(Mixin, ListView):
     model = Balloon
     template_name = "balloon/index.html"
     context_object_name = 'goods'
@@ -54,7 +51,7 @@ class ShowGoodsInGroup(DataMixin, ListView):
         return Balloon.objects.filter(group__slug=self.kwargs['group_slug'], is_onsite=True)
 
 
-class CertainProduct(DataMixin, DetailView):
+class CertainProduct(Mixin, DetailView):
     model = Balloon
     template_name = 'balloon/show_product.html'
     slug_url_kwarg = 'good_slug'
@@ -66,7 +63,7 @@ class CertainProduct(DataMixin, DetailView):
         return {**context, **mixin_context}
 
 
-class AddProduct(LoginRequiredMixin, DataMixin, CreateView):
+class AddProduct(LoginRequiredMixin, Mixin, CreateView):
     form_class = AddProductForm
     template_name = 'balloon/add_product.html'
     login_url = reverse_lazy('home')
@@ -130,7 +127,7 @@ def reviews(request):
     return render(request, 'balloon/reviews.html', context)
 
 
-class Registration(DataMixin, CreateView):
+class Registration(Mixin, CreateView):
     form_class = RegistrationForm
     template_name = 'balloon/register.html'
     success_url = reverse_lazy('login')
@@ -146,7 +143,7 @@ class Registration(DataMixin, CreateView):
         return redirect('successfully')
 
 
-class Logging(DataMixin, LoginView):
+class Logging(Mixin, LoginView):
     form_class = LoginForm
     template_name = 'balloon/login.html'
 
@@ -164,7 +161,7 @@ def logout_user(request):
     return redirect('home')
 
 
-class Feedback(DataMixin, FormView):
+class Feedback(Mixin, FormView):
     form_class = FeedbackForm
     template_name = 'balloon/feedback.html'
     success_url = reverse_lazy('home')

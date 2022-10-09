@@ -6,11 +6,11 @@ menu = [
     {"title": "Доставка", "url_name": "delivery"},
     {"title": "Отзывы", "url_name": "reviews"},
     {"title": "Добавить товар", "url_name": "add_product"},
-    {"title": "Сделать заказ / задать вопрос", "url_name": "feedback"},
+    {"title": "Сделать заказ/задать вопрос", "url_name": "feedback"},
 ]
 
 
-class DataMixin:
+class Mixin:
     paginate_by = 4
 
     def get_user_context(self, **kwargs):
