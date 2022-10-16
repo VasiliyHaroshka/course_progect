@@ -77,7 +77,7 @@ class AddProduct(LoginRequiredMixin, Mixin, CreateView):
 
 def about(request):
     groups = Group.objects.all()
-    allowed_menu = menu.copy()
+    allowed_menu = menu[:]
     if not request.user.is_superuser:
         allowed_menu.pop(4)
     context = {
@@ -90,7 +90,7 @@ def about(request):
 
 def works(request):
     groups = Group.objects.all()
-    allowed_menu = menu.copy()
+    allowed_menu = menu[:]
     if not request.user.is_superuser:
         allowed_menu.pop(4)
     context = {
@@ -103,7 +103,7 @@ def works(request):
 
 def delivery(request):
     groups = Group.objects.all()
-    allowed_menu = menu.copy()
+    allowed_menu = menu[:]
     if not request.user.is_superuser:
         allowed_menu.pop(4)
     context = {
@@ -116,7 +116,7 @@ def delivery(request):
 
 def reviews(request):
     groups = Group.objects.all()
-    allowed_menu = menu.copy()
+    allowed_menu = menu[:]
     if not request.user.is_superuser:
         allowed_menu.pop(4)
     context = {
@@ -185,7 +185,7 @@ class Feedback(Mixin, FormView):
 
 def successfully(request):
     groups = Group.objects.all()
-    allowed_menu = menu.copy()
+    allowed_menu = menu[:]
     if not request.user.is_superuser:
         allowed_menu.pop(4)
     context = {

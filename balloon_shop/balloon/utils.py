@@ -17,7 +17,7 @@ class Mixin:
         context = kwargs
         groups = Group.objects.all()
 
-        allowed_menu = menu.copy()
+        allowed_menu = menu[:]
         if not self.request.user.is_superuser:
             allowed_menu.pop(4)
 
