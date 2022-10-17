@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+
 from .telegramm import send_message
 from django.contrib.auth import logout, login
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -114,17 +116,17 @@ def delivery(request):
     return render(request, 'balloon/delivery.html', context)
 
 
-def reviews(request):
-    groups = Group.objects.all()
-    allowed_menu = menu[:]
-    if not request.user.is_superuser:
-        allowed_menu.pop(4)
-    context = {
-        'title': 'Отзывы',
-        'menu': allowed_menu,
-        'groups': groups,
-    }
-    return render(request, 'balloon/reviews.html', context)
+# def reviews(request):
+#     groups = Group.objects.all()
+#     allowed_menu = menu[:]
+#     if not request.user.is_superuser:
+#         allowed_menu.pop(4)
+#     context = {
+#         'title': 'Отзывы',
+#         'menu': allowed_menu,
+#         'groups': groups,
+#     }
+#     return render(request, 'balloon/reviews.html', context)
 
 
 class Registration(Mixin, CreateView):
@@ -198,3 +200,30 @@ def successfully(request):
 
 def page_not_found(request, exception):
     return render(request, "error404.html")
+
+
+@login_required
+def reviews(request):
+    groups = Group.objects.all()
+    form = LeaveReview
+    allowed_menu = menu[:]
+    if not request.user.is_superuser:
+        allowed_menu.pop(4)
+    if request.method == "POST":
+        form = LeaveReview(request.POST)
+        if form.is_valid():
+            review = Review(
+                name=form.cleaned_data['name'],
+                text=form.cleaned_data['text'],
+            )
+            review.save()
+    all_reviews = Review.objects.all()
+    context = {
+        'title': 'Отзывы',
+        'menu': allowed_menu,
+        'groups': groups,
+        "form": form,
+        'all_reviews': all_reviews,
+    }
+    return render(request, 'balloon/reviews.html', context)
+

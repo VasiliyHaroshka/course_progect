@@ -481,3 +481,8 @@ button.link-send:hover {
 .to-top:hover a {
     color: #ffc300;
 }
+
+.review-form{
+	overflow:hidden;
+	float:left;
+}

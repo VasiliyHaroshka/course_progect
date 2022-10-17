@@ -39,3 +39,15 @@ class Group(models.Model):
         verbose_name = "Группа"
         verbose_name_plural = "Группы"
         ordering = ['id']
+
+
+class Review(models.Model):
+    name = models.CharField(max_length=50, verbose_name="отзыв")
+    text = models.TextField()
+    photo = models.ImageField(upload_to='photos/reviews_photo', blank=True, verbose_name='адрес фото')
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
+        ordering = ['-created_on']

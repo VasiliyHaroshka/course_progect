@@ -2,12 +2,29 @@
 {% load static %}
 
 {% block content %}
-<h2><i>&#128077;Отзывы наших клиентов&#128077;</i></h2>
-<div align="left">
-    <img src="{% static 'balloon/images/review2.jpg' %}" height="300" width="400">
+
+<h1>{{ title }}:</h1>
+{% if all_reviews %}
+    {% for review in all_reviews %}
+    <p>{{ review.created_on.date }} в {{ review.created_on.time }}</p>
+    <p>Пользователь <b>{{ review.name }}</b> оставил отзыв:</p>
+    <p>&emsp; - {{ review.text }}.</p>
+{% if review.photo %}
+    <p><img src="{{ review.photo.url }}" width=300 height=200></p>
+{% endif %}
+    <hr>
+    {% endfor %}
+{% else %}
+    <h5>Отзывов пока нет. Оставьте первый!</h5>
+{% endif %}
+<div class="review-form">
+<h3>Добавить свой отзыв:</h3>
+<form action="{% url 'reviews' %}" method="post">
+    {% csrf_token %}
+    <div class="form-error">{{ form.non_fields_errors }}</div>
+    <table>{{ form.as_table }}</table>
+    <button class="link-send" type="submit">Опубликовать</button>
+</form>
 </div>
-<br><hr align="left" width="400"><br>
-<div align="left">
-    <img src="{% static 'balloon/images/review1.jpg' %}" height="300" width="400">
-</div>
+
 {% endblock %}

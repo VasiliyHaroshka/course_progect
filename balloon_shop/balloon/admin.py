@@ -18,5 +18,12 @@ class GroupAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
 
 
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'text', 'photo', 'created_on')
+    list_display_links = ('name',)
+    search_fields = ('name',)
+
+
 admin.site.register(Balloon, BalloonAdmin)
 admin.site.register(Group, GroupAdmin)
+admin.site.register(Review, ReviewAdmin)

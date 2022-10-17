@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from captcha.fields import CaptchaField
-
 from .models import *
 
 
@@ -16,7 +15,8 @@ class AddProductForm(forms.ModelForm):
         fields = ['name',
                   'slug',
                   'description',
-                  'price', 'photo',
+                  'price',
+                  'photo',
                   'is_onsite',
                   'group']
         widgets = {'description': forms.Textarea(attrs={'cols': 60, 'rows': 15})}
@@ -44,4 +44,13 @@ class FeedbackForm(forms.Form):
     phone = forms.CharField(label='Телефон', required=True)
     information = forms.CharField(label='Сообщение', widget=forms.Textarea(attrs={'cols': 50, 'rows': 10}),required=True)
     captcha = CaptchaField()
+
+
+class LeaveReview(forms.Form):
+    name = forms.CharField(label='Имя', max_length=50, required=True)
+    text = forms.CharField(label='Текст', widget=forms.Textarea(attrs={'cols': 50, 'rows': 10}),
+                                  required=True)
+    captcha = CaptchaField()
+
+
 
