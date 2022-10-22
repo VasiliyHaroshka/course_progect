@@ -2,6 +2,14 @@
 
 {% block content %}
 
+<div align="right">
+	сортировка:&nbsp;
+	<a href="{% url 'home' %}">по дате&#8595; &nbsp;</a>
+	<a href="{% url 'old_first' %}">по дате&#8593; &nbsp;</a>
+	<a href="{% url 'expensive_first' %}">по цене&#8595; &nbsp;</a>
+	<a href="{% url 'cheap_first' %}">по цене&#8593;</a>
+</div>
+
 <ul class="list-articles">
 	{% for g in goods %}
 		{% if g.photo %}

@@ -37,6 +37,21 @@ class HomePage(Mixin, ListView):
         return Balloon.objects.filter(is_onsite=True)
 
 
+class HomePageExpensiveFirst(HomePage):
+    def get_queryset(self):
+        return Balloon.objects.filter(is_onsite=True).order_by("-price")
+
+
+class HomePageCheapFirst(HomePage):
+    def get_queryset(self):
+        return Balloon.objects.filter(is_onsite=True).order_by("price")
+
+
+class HomePageOldFirst(HomePage):
+    def get_queryset(self):
+        return Balloon.objects.filter(is_onsite=True).order_by("time_modified")
+
+
 class ShowGoodsInGroup(Mixin, ListView):
     model = Balloon
     template_name = "balloon/index.html"

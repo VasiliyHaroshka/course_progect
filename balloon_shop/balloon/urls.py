@@ -3,6 +3,9 @@ from .views import *
 
 urlpatterns = [
     path('', HomePage.as_view(), name='home'),
+    path('old_first/', HomePageOldFirst.as_view(), name='old_first'),
+    path('expensive_first/', HomePageExpensiveFirst.as_view(), name='expensive_first'),
+    path('cheap_first/', HomePageCheapFirst.as_view(), name='cheap_first'),
     path('group/<slug:group_slug>', ShowGoodsInGroup.as_view(), name='group'),
     path('good/<slug:good_slug>', CertainProduct.as_view(), name='detail'),
     path('add_product', AddProduct.as_view(), name='add_product'),
