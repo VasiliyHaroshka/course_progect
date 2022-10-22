@@ -6,25 +6,34 @@
 <h1>{{ title }}:</h1>
 {% if all_reviews %}
     {% for review in all_reviews %}
-    <p>{{ review.created_on.date }} в {{ review.created_on.time }}</p>
-    <p>Пользователь <b>{{ review.name }}</b> оставил отзыв:</p>
-    <p>&emsp; - {{ review.text }}.</p>
-{% if review.photo %}
-    <p><img src="{{ review.photo.url }}" width=300 height=200></p>
-{% endif %}
+        <p>Пользователь <b>{{ review.name }}</b> оставил отзыв:</p>
+        <p>&emsp; - {{ review.text }}.</p>
+        {% if review.photo %}
+            <p><img src="{{ review.photo.url }}" width=300 height=200></p>
+        {% endif %}
+        <p>{{ review.created_on.date }} в {{ review.created_on.time }}</p>
     <hr>
     {% endfor %}
 {% else %}
-    <h5>Отзывов пока нет. Оставьте первый!</h5>
+    <p><font color="red">Отзывов пока нет. Оставьте первый!</font>&#9997;</p>
 {% endif %}
+
+{% if request.user.is_authenticated %}
 <div class="review-form">
-<h3>Добавить свой отзыв:</h3>
-<form action="{% url 'reviews' %}" method="post">
-    {% csrf_token %}
-    <div class="form-error">{{ form.non_fields_errors }}</div>
-    <table>{{ form.as_table }}</table>
-    <button class="link-send" type="submit">Опубликовать</button>
-</form>
+    <h3>Оставить свой отзыв:</h3>
+
+    <form action="{% url 'reviews' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-error">{{ form.non_fields_errors }}</div>
+        <table>{{ form.as_table }}</table>
+        <br>
+        <button class="link-send" type="submit">Опубликовать</button>
+    </form>
+
 </div>
+{% else %}
+    <h4><a href="{% url 'register' %}">Зарегистрируйтесь</a> или <a href="{% url 'login' %}">авторизуйтесь</a>,
+    чтобы оставить отзыв</h4>
+{% endif %}
 
 {% endblock %}

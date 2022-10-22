@@ -1,11 +1,12 @@
 {% extends 'balloon/base.html' %}
 
 {% block content %}
+
 <ul class="list-articles">
 	{% for g in goods %}
 		{% if g.photo %}
 			<p><a href="{{ g.get_absolute_url }}">
-				<img class="img-article-left thumb" src="{{ g.photo.url }}" alt="picture of balloon" hspace="30"></a></p>
+			<img class="img-good-left thumb" src="{{ g.photo.url }}" alt="picture of balloon" hspace="30" ></a></p>
 		{% endif %}
 			<li><h2><a href="{{ g.get_absolute_url }}">{{ g.name }}</a></h2>
 				{{ g.description|linebreaks|truncatewords:40 }}
@@ -13,4 +14,5 @@
 			</li>
 	{% endfor %}
 </ul>
+
 {% endblock %}

@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>{{ title }}</title>
 	<link type="text/css" href="{% static 'balloon/css/styles.css' %}" rel="stylesheet"/>
@@ -8,7 +9,9 @@
 	<link rel="shortcut icon" href="{% static 'balloon/images/blue-balloon.png' %}" type="image/x-icon"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
+<!--*** Шапка над меню ***-->
 <table class="table-page" border=0 cellpadding="0" cellspacing="0">
 <tr bgcolor="ccffff">
 	<td background="{% static 'balloon/images/sky-top.jpg' %}" height="100">
@@ -32,6 +35,8 @@
 		</div>
 	</td>
 </tr>
+
+<!--*** Главное меню ***-->
 <tr><td valign=top>
 {% block mainmenu %}
 	<div class="header">
@@ -39,30 +44,27 @@
 			{% for m in menu %}
 				<li><a href="{% url m.url_name %}">{{ m.title }}</a></li>
 			{% endfor %}
-			{% if request.user.is_authenticated %}
-				{% if request.user.is_superuser %}
-					<li class="last"> Администратор сайта &emsp;
-						<a href="{% url 'logout' %}">Выйти</a>
-					</li>
+				{% if request.user.is_authenticated %}
+					{% if request.user.is_superuser %}
+						<li class="last"> Администратор сайта &emsp;
+							<a href="{% url 'logout' %}">Выйти</a></li>
 				{% else %}
 					<li class="last"> Вы вошли как: "{{ user.username }}"&emsp;<a href="{% url 'logout' %}">Выйти</a></li>
 				{% endif %}
 			{% else %}
 				<li class="last"><a href="{% url 'register' %}">Регистрация</a>
 					<font color="white">/</font>
-					<a href="{% url 'login' %}">Войти</a>
-				</li>
+					<a href="{% url 'login' %}">Войти</a></li>
 			{% endif %}
 		</ul>
 	</div>
 {% endblock mainmenu %}
 
-
+<!--*** Боковое меню ***-->
 <table class="table-content" border=0 cellpadding="0" cellspacing="0">
 <tr>
-<!-- Sidebar слева -->
 	<td valign="top" class="left-chapters">
-	<ul id="leftchapters">
+		<ul id="leftchapters">
 		{% if group_selected == 0 %}
 			<li class="selected">Все категории:</li>
 		{% else %}
@@ -81,17 +83,12 @@
 		<p align="left">Подписывайтесь<br>на нас в Instagram:</p>
 		</li>
 			<a href="https://www.instagram.com/polet_vinnipuha/" target="_blank">
-			<img src="{% static 'balloon/images/qr5.png'%}" height=200 width=200>
-			</a>
-	</ul>
+			<img src="{% static 'balloon/images/qr5.png'%}" height=200 width=200></a>
+		</ul>
 </td>
-<!-- Конец Sidebar'а -->
-<td valign="top" class="content">
-	<!-- Хлебные крошки -->
-	{% block breadcrumbs %}
-	{% endblock %}
 
-<!-- Блок контента -->
+<!--*** Строка с промокодом в центре ***-->
+<td valign="top" class="content">
 	{% if request.user.is_authenticated %}
 		{% if not request.user.is_superuser %}
 			<h3 align="center">Спасибо за регистрацию! При заказе сообщите промокод "MyItSchool" и получите
@@ -104,10 +101,13 @@
 
 <div class="content-text">
 
-{% block content %}
 
+<!--*** Контент ***-->
+{% block content %}
 {% endblock %}
 
+
+<!--*** Пагинация ***-->
 {% if page_obj.has_other_pages %}
 	<div class="pagination" align="center">
 		<br>
@@ -132,24 +132,22 @@
 			<a href="?page={{ page_obj.next_page_number }}">&#9658;</a>
 			<a href="?page={{ page_obj.paginator.num_pages }}">>></a>
 		{% endif %}
-
-
 	</nav>
 {% endif %}
 	</div>
-
 </div>
-
 
 </td></tr></table>
 </td></tr>
-<!-- Footer -->
+
+
+<!--*** Информация внизу сайта ***-->
 <tr><td valign=top>
 	<div id="footer">
 		<p><a href="https://www.linkedin.com/in/vasiliy-haroshka-2088b3240" target="_blank">
 		<font color="white">2022 Разработчик: Горошко Василий Иванович</font></a></p>
 	</div>
 </td></tr></table>
-<!-- Конец footer'а и страницы -->
+
 </body>
 </html>

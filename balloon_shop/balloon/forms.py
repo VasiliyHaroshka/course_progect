@@ -47,10 +47,25 @@ class FeedbackForm(forms.Form):
 
 
 class LeaveReview(forms.Form):
-    name = forms.CharField(label='Имя', max_length=50, required=True)
+    name = forms.CharField(label='Имя', max_length=100, required=True)
     text = forms.CharField(label='Текст', widget=forms.Textarea(attrs={'cols': 50, 'rows': 10}),
                                   required=True)
+    photo = forms.ImageField(label='Фото', required=False)
     captcha = CaptchaField()
+
+
+# class LeaveReview(forms.ModelForm):
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         self.fields['Captcha'] = CaptchaField()
+#
+#     class Meta:
+#         model = Review
+#         fields = ['name',
+#                   'text',
+#                   'photo']
+
+
 
 
 

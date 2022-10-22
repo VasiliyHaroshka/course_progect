@@ -47,6 +47,9 @@ class Review(models.Model):
     photo = models.ImageField(upload_to='photos/reviews_photo', blank=True, verbose_name='адрес фото')
     created_on = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name = "Отзыв"
         verbose_name_plural = "Отзывы"

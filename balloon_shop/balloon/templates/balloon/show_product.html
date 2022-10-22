@@ -5,13 +5,13 @@
 <h1>{{ good.name }}</h1>
 
 {% if good.photo %}
-    <p><img class="img-article-left" src="{{ good.photo.url }}" alt="Фото товара"></p>
+    <p><img class="img-good-left" src="{{ good.photo.url }}" alt="Фото товара"></p>
 {% endif %}
 
 {{ good.description|linebreaks }}
 
 <h4>Цена: <font color="red">{{ good.price }} р.</font></h4>
 
-<p align="left" class="link-read-post"><a href="{% url 'home' %}">На главную</a></p>
+<p align="left" class="back-to-main"><a href="{% url 'home' %}">На главную</a></p>
 
 {% endblock%}

@@ -1,11 +1,14 @@
 {% extends 'balloon/base.html' %}
 
 {% block content %}
+
 <h1>Заполните форму обратной связи</h1>
+
 <form method="post">
   {% csrf_token %}
   <div class="form-error">{{ form.non_fields_errors }}</div>
   <table>{{ form.as_table }}</table>
   <button class="link-send" type="submit">Отправить</button>
 </form>
+
 {% endblock %}

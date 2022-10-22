@@ -80,12 +80,18 @@ class AddProduct(LoginRequiredMixin, Mixin, CreateView):
 def about(request):
     groups = Group.objects.all()
     allowed_menu = menu[:]
+    white_box = Balloon.objects.get(slug='korobka-surpriz-belaia')
+    color_box = Balloon.objects.get(slug='korobka-surpriz-tsvetnaya')
+    lettering = Balloon.objects.get(slug='nadpisy-na-sharikah')
     if not request.user.is_superuser:
         allowed_menu.pop(4)
     context = {
         'title': 'О нас',
         'menu': allowed_menu,
         'groups': groups,
+        'white_box': white_box,
+        'color_box': color_box,
+        'lettering': lettering,
     }
     return render(request, 'balloon/about.html', context)
 
@@ -114,19 +120,6 @@ def delivery(request):
         'groups': groups,
     }
     return render(request, 'balloon/delivery.html', context)
-
-
-# def reviews(request):
-#     groups = Group.objects.all()
-#     allowed_menu = menu[:]
-#     if not request.user.is_superuser:
-#         allowed_menu.pop(4)
-#     context = {
-#         'title': 'Отзывы',
-#         'menu': allowed_menu,
-#         'groups': groups,
-#     }
-#     return render(request, 'balloon/reviews.html', context)
 
 
 class Registration(Mixin, CreateView):
@@ -202,7 +195,6 @@ def page_not_found(request, exception):
     return render(request, "error404.html")
 
 
-@login_required
 def reviews(request):
     groups = Group.objects.all()
     form = LeaveReview
@@ -210,11 +202,12 @@ def reviews(request):
     if not request.user.is_superuser:
         allowed_menu.pop(4)
     if request.method == "POST":
-        form = LeaveReview(request.POST)
+        form = LeaveReview(request.POST, request.FILES)
         if form.is_valid():
             review = Review(
                 name=form.cleaned_data['name'],
                 text=form.cleaned_data['text'],
+                photo=form.cleaned_data['photo'],
             )
             review.save()
     all_reviews = Review.objects.all()
@@ -226,4 +219,3 @@ def reviews(request):
         'all_reviews': all_reviews,
     }
     return render(request, 'balloon/reviews.html', context)
-
