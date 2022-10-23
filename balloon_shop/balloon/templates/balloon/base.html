@@ -29,7 +29,7 @@
 			<a href="https://www.instagram.com/polet_vinnipuha/" target="_blank">
 			<img src="{% static 'balloon/images/instagram.png' %}" height=50 width=50>
 			</a>
-			<a href="https://viber.click/375295733437" target="_blank">
+			<a href="viber://chat?number=%2B375295733437" target="_blank">
 			<img src="{% static 'balloon/images/viber.png' %}" height=50 width=50>
 			</a>
 		</div>
@@ -78,8 +78,8 @@
 				<li><a href="{{ g.get_absolute_url }}">{{ g.name }}</a></li>
 			{% endif %}
 		{% endfor %}
-
-		<li class="share">
+			<br>
+		<li>
 		<p align="left">Подписывайтесь<br>на нас в Instagram:</p>
 		</li>
 			<a href="https://www.instagram.com/polet_vinnipuha/" target="_blank">
