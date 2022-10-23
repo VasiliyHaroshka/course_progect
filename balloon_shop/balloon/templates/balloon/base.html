@@ -96,16 +96,15 @@
 		{% endif %}
 	{% else %}
 		<h3 align="center"><i><a href="{% url 'register' %}">После регистрации</a> Вам будет доступен
-		<font color="red">промокод на скидку!</font> </i></h3>
+		<font color="red">промокод на скидку!</font></i></h3>
 	{% endif %}
 
-<div class="content-text">
 
 
 <!--*** Контент ***-->
+<div class="content-text">
 {% block content %}
 {% endblock %}
-
 
 <!--*** Пагинация ***-->
 {% if page_obj.has_other_pages %}

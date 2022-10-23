@@ -23,6 +23,7 @@ img.img-good-left {
 	height: 300px;
 	float: left;
 	padding: 0 10px 10px 0;
+	margin: 0px 40px;
 }
 
 img.img-good-left.thumb {
@@ -68,7 +69,7 @@ ul.list-articles {
 	padding: 0;
 }
 ul.list-articles li {
-	border-bottom: 1px solid #000000;
+	border-bottom: 1px solid #fff;
 }
 
 .table-page {
