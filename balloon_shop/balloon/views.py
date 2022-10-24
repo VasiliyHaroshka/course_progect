@@ -1,3 +1,5 @@
+from rest_framework import generics
+from .serializers import *
 from .telegramm import send_message
 from django.contrib.auth import logout, login
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -16,7 +18,7 @@ menu = [
     {"title": "Доставка", "url_name": "delivery"},
     {"title": "Отзывы", "url_name": "reviews"},
     {"title": "Добавить товар", "url_name": "add_product"},
-    {"title": "Сделать заказ/задать вопрос", "url_name": "feedback"},
+    {"title": "Сделать заказ / задать вопрос", "url_name": "feedback"},
 ]
 
 
@@ -231,3 +233,8 @@ def reviews(request):
         'all_reviews': all_reviews,
     }
     return render(request, 'balloon/reviews.html', context)
+
+
+
+
+

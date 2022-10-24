@@ -33,7 +33,7 @@ class Group(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('group', kwargs={'group_slug': self.slug}) # маршрут к конкретной записи
+        return reverse('group', kwargs={'group_slug': self.slug}) # маршрут к конкретной группе
 
     class Meta:
         verbose_name = "Группа"

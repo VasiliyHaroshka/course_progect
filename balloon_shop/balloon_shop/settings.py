@@ -40,8 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'balloon.apps.BalloonConfig',
     'captcha',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -138,3 +140,11 @@ CAPTCHA_FONT_SIZE = 30
 CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'
 CAPTCHA_BACKGROUND_COLOR = '#5F9DEC'
 CAPTCHA_FOREGROUND_COLOR = '#ffffff'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer', # обмен данных в JSON формате
+        'rest_framework.renderers.BrowsableAPIRenderer', # если отключить, то нельзя будет менять данные из браузера
+    ]
+}

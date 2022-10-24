@@ -6,7 +6,7 @@ menu = [
     {"title": "Доставка", "url_name": "delivery"},
     {"title": "Отзывы", "url_name": "reviews"},
     {"title": "Добавить товар", "url_name": "add_product"},
-    {"title": "Сделать заказ/задать вопрос", "url_name": "feedback"},
+    {"title": "Сделать заказ / задать вопрос", "url_name": "feedback"},
 ]
 
 
@@ -16,16 +16,10 @@ class Mixin:
     def get_user_context(self, **kwargs):
         context = kwargs
         groups = Group.objects.all()
-
         allowed_menu = menu[:]
         if not self.request.user.is_superuser:
             allowed_menu.pop(4)
-
-        # if not self.request.user.is_authenticated:
-        #     allowed_menu.pop(4)
-
         context['menu'] = allowed_menu
-
         context['groups'] = groups
         if 'group_selected' not in context:
             context['group_selected'] = 0
