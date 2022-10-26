@@ -46,7 +46,7 @@
 			{% endfor %}
 				{% if request.user.is_authenticated %}
 					{% if request.user.is_superuser %}
-						<li class="last"> Администратор сайта &emsp;
+						<li class="last"> Администратор &emsp;
 							<a href="{% url 'logout' %}">Выйти</a></li>
 				{% else %}
 					<li class="last"> Вы вошли как: "{{ user.username }}"&emsp;<a href="{% url 'logout' %}">Выйти</a></li>
@@ -98,8 +98,6 @@
 		<h3 align="center"><i><a href="{% url 'register' %}">После регистрации</a> Вам будет доступен
 		<font color="red">промокод на скидку!</font></i></h3>
 	{% endif %}
-
-
 
 <!--*** Контент ***-->
 <div class="content-text">

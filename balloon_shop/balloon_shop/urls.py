@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from balloon.views import *
-from .yasg import urlpatterns as swag_urls
+from balloon.yasg import urlpatterns as swag_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
