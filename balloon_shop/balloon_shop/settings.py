@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'balloon.apps.BalloonConfig',
     'captcha',
     'rest_framework',
+    'drf_yasg',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
