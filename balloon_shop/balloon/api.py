@@ -1,32 +1,36 @@
+from rest_framework.permissions import IsAdminUser
 from .serializers import *
 from rest_framework import generics
 
 
-class AllBalloonsAPI(generics.ListCreateAPIView):
+class ShowAllBalloonsAPI(generics.ListAPIView):
     queryset = Balloon.objects.all()
     serializer_class = BalloonsSerializer
 
 
-class MasterBalloonAPI(generics.RetrieveUpdateDestroyAPIView):
+class ChangeBalloonAPI(generics.RetrieveUpdateDestroyAPIView):
     queryset = Balloon.objects.all()
     serializer_class = BalloonsSerializer
+    permission_classes = (IsAdminUser,)
 
 
-class AllGroupsAPI(generics.ListCreateAPIView):
+class ShowAllGroupsAPI(generics.ListAPIView):
     queryset = Group.objects.all()
     serializer_class = GroupsSerializer
 
 
-class MasterGroupAPI(generics.RetrieveUpdateDestroyAPIView):
+class ChangeGroupAPI(generics.RetrieveUpdateDestroyAPIView):
     queryset = Group.objects.all()
     serializer_class = GroupsSerializer
+    permission_classes = (IsAdminUser,)
 
 
-class AllReviewsAPI(generics.ListCreateAPIView):
+class ShowAllReviewsAPI(generics.ListAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewsSerializer
 
 
-class MasterReviewAPI(generics.RetrieveUpdateDestroyAPIView):
+class ChangeReviewAPI(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewsSerializer
+    permission_classes = (IsAdminUser,)

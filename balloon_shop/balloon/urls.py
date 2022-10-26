@@ -1,12 +1,7 @@
-from django.urls import path, include
+from django.urls import path
 from .views import *
 from .api import *
-from rest_framework import routers
 
-
-router = routers.DefaultRouter()
-router.register(r'all_balloons_api', AllBalloonsAPI)
-router.register(r'all_groups_api', AllGroupsAPI)
 
 urlpatterns = [
     path('', HomePage.as_view(), name='home'),
@@ -26,10 +21,10 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
     path('successfully/', successfully, name='successfully'),
 
-    path('api/v1/allballoons/', AllBalloonsAPI.as_view(), name="all_balloons"),
-    path('api/v1/balloon/<int:pk>/', MasterBalloonAPI.as_view(), name="certain_balloon"),
-    path('api/v1/allgroups/', AllGroupsAPI.as_view(), name="all_groups"),
-    path('api/v1/group/<int:pk>/', MasterGroupAPI.as_view(), name="update_group"),
-    path('api/v1/allreviews/', AllReviewsAPI.as_view(), name="all_reviews"),
-    path('api/v1/review/<int:pk>/', MasterReviewAPI.as_view(), name="update_review"),
+    path('api/v1/balloons/', ShowAllBalloonsAPI.as_view(), name="show_balloons"),
+    path('api/v1/balloon/<int:pk>/', ChangeBalloonAPI.as_view(), name="change_balloon"),
+    path('api/v1/groups/', ShowAllGroupsAPI.as_view(), name="show_groups"),
+    path('api/v1/group/<int:pk>/', ChangeGroupAPI.as_view(), name="change_group"),
+    path('api/v1/reviews/', ShowAllReviewsAPI.as_view(), name="show_reviews"),
+    path('api/v1/review/<int:pk>/', ChangeReviewAPI.as_view(), name="change_review"),
 ]

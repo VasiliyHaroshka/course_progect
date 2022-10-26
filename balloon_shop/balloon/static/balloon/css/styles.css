@@ -80,7 +80,7 @@ ul.mainmenu {
 }
 ul.mainmenu li {
 	float: left;
-	margin: 18px 40px 0 30px;
+	margin: 18px 15px 0 30px;
 }
 ul.mainmenu li.last {float: right;}
 
