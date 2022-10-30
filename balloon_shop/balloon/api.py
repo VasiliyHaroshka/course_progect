@@ -1,4 +1,4 @@
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from .serializers import *
 from rest_framework import generics
 from rest_framework import filters
@@ -8,7 +8,6 @@ class ShowAllBalloonsAPI(generics.ListAPIView):
     queryset = Balloon.objects.all()
     serializer_class = BalloonsSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['name']
 
 
 class ChangeBalloonAPI(generics.RetrieveUpdateDestroyAPIView):
@@ -27,7 +26,6 @@ class ShowAllGroupsAPI(generics.ListAPIView):
     queryset = Group.objects.all()
     serializer_class = GroupsSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['name']
 
 
 class CreateGroupAPI(generics.CreateAPIView):
@@ -51,7 +49,7 @@ class ShowAllReviewsAPI(generics.ListAPIView):
 class CreateReviewAPI(generics.CreateAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewsSerializer
-    permission_classes = (IsAdminUser,)
+    permission_classes = (IsAuthenticated,)
 
 
 class ChangeReviewAPI(generics.RetrieveUpdateDestroyAPIView):

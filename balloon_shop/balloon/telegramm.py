@@ -7,4 +7,5 @@ telegramBot = telepot.Bot(token)
 
 
 def send_message(text):
-    telegramBot.sendMessage(my_id, text, parse_mode='Markdown')
+    telegramBot.sendMessage(my_id, text,
+                            parse_mode='Markdown')

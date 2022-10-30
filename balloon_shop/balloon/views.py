@@ -1,14 +1,10 @@
-from rest_framework import generics
-from .serializers import *
 from .telegramm import send_message
 from django.contrib.auth import logout, login
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, FormView
 
-from .models import *
 from .forms import *
 from .utils import *
 
@@ -18,7 +14,7 @@ menu = [
     {"title": "Доставка", "url_name": "delivery"},
     {"title": "Отзывы", "url_name": "reviews"},
     {"title": "Добавить товар", "url_name": "add_product"},
-    {"title": "Сделать заказ/задать вопрос", "url_name": "feedback"},
+    {"title": "Сделать заказ / задать вопрос", "url_name": "feedback"},
 ]
 
 
@@ -79,11 +75,9 @@ class CertainProduct(Mixin, DetailView):
         return {**context, **mixin_context}
 
 
-class AddProduct(LoginRequiredMixin, Mixin, CreateView):
+class AddProduct(Mixin, CreateView):
     form_class = AddProductForm
     template_name = 'balloon/add_product.html'
-    login_url = reverse_lazy('home')
-    raise_exception = True
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -139,7 +133,6 @@ def delivery(request):
 class Registration(Mixin, CreateView):
     form_class = RegistrationForm
     template_name = 'balloon/register.html'
-    success_url = reverse_lazy('login')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
@@ -173,7 +166,6 @@ def logout_user(request):
 class Feedback(Mixin, FormView):
     form_class = FeedbackForm
     template_name = 'balloon/feedback.html'
-    success_url = reverse_lazy('home')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)

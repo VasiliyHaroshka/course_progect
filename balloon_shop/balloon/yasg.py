@@ -13,7 +13,7 @@ schema_view = get_schema_view(
         contact=openapi.Contact(email='horvasiliy@mail.ru')
     ),
     public=True,
-    permission_classes=(permissions.AllowAny,),
+    permission_classes=[permissions.IsAdminUser],
     generator_class=drf_yasg.generators.OpenAPISchemaGenerator
 )
 

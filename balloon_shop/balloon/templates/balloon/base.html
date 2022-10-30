@@ -44,10 +44,10 @@
 			{% for m in menu %}
 				<li><a href="{% url m.url_name %}">{{ m.title }}</a></li>
 			{% endfor %}
-				{% if request.user.is_authenticated %}
-					{% if request.user.is_superuser %}
-						<li class="last"> Администратор &emsp;
-							<a href="{% url 'logout' %}">Выйти</a></li>
+			{% if request.user.is_authenticated %}
+				{% if request.user.is_superuser %}
+					<li class="last"> Администратор &emsp;
+						<a href="{% url 'logout' %}">Выйти</a></li>
 				{% else %}
 					<li class="last"> Вы вошли как: "{{ user.username }}"&emsp;<a href="{% url 'logout' %}">Выйти</a></li>
 				{% endif %}
@@ -137,12 +137,11 @@
 </td></tr></table>
 </td></tr>
 
-
 <!--*** Информация внизу сайта ***-->
 <tr><td valign=top>
 	<div id="footer">
 		<p><a href="https://www.linkedin.com/in/vasiliy-haroshka-2088b3240" target="_blank">
-		<font color="white">2022 Разработчик: Горошко Василий Иванович</font></a></p>
+		<font color="white">Разработчик: Горошко Василий Иванович. 2022 </font></a></p>
 	</div>
 </td></tr></table>
 

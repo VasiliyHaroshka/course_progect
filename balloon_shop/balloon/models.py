@@ -42,10 +42,10 @@ class Group(models.Model):
 
 
 class Review(models.Model):
-    name = models.CharField(max_length=50, verbose_name="отзыв")
-    text = models.TextField()
+    name = models.CharField(max_length=50, verbose_name="имя")
+    text = models.TextField(verbose_name='текст')
     photo = models.ImageField(upload_to='photos/reviews_photo', blank=True, verbose_name='адрес фото')
-    created_on = models.DateTimeField(auto_now_add=True)
+    created_on = models.DateTimeField(auto_now_add=True, verbose_name='дата публикации')
 
     def __str__(self):
         return self.name
