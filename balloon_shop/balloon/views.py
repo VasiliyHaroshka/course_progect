@@ -4,18 +4,8 @@ from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, FormView
-
 from .forms import *
 from .utils import *
-
-menu = [
-    {"title": "О нас", "url_name": "about"},
-    {"title": "Наши работы", "url_name": "works"},
-    {"title": "Доставка", "url_name": "delivery"},
-    {"title": "Отзывы", "url_name": "reviews"},
-    {"title": "Добавить товар", "url_name": "add_product"},
-    {"title": "Сделать заказ / задать вопрос", "url_name": "feedback"},
-]
 
 
 class HomePage(Mixin, ListView):
