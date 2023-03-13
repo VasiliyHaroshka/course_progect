@@ -1,3 +1,5 @@
 token_and_ID.py
 key.py
 venv
+.idea
+.gitignore
